@@ -1,0 +1,33 @@
+Initial project setup:
+
+Installer 
+    .Net SDK
+    NodeJS
+    GIT
+
+afficher la liste des templates:
+dotnet new -l 
+
+----------
+Create the projects:
+
+dotnet new sln
+dotnet new webapi -n API
+dotnet new classlib -n Application
+dotnet new classlib -n Domain
+dotnet new classlib -n Persistance
+dotnet sln add .\API\
+dotnet sln add .\Application\
+dotnet sln add .\Persistance\
+dotnet sln add .\Domain\
+
+cd API
+dotnet add reference ..\Application\
+cd ..
+cd Application
+dotnet add reference ..\Persistance\
+dotnet add reference ..\Domain\
+cd ..
+cd Persistance
+dotnet add reference ..\Domain\
+----------
