@@ -30,4 +30,12 @@ dotnet add reference ..\Domain\
 cd ..
 cd Persistance
 dotnet add reference ..\Domain\
+
+cd ..
+dotnet add gitignore
 ----------
+
+Si il y a un problème de dépendences (p.ex. EntityFramework pas dispo dans le projet API)
+il faut lancer cette commande depuis la racine (dossier de la solution):
+dotnet restore
+
