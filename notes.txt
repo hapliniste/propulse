@@ -62,3 +62,9 @@ dotnet watch run
 
 Si omnisharp bug, on fait ctrl+shift+P : omnisharp:restart omnisharp
 
+
+
+
+[React]
+npx create-react-app client --use-npm --template typescript
+
