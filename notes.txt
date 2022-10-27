@@ -1,3 +1,7 @@
+VSCode setup:
+désactiver la complétion bugguée dans les paramètres: accept suggestion on commit character
+
+
 Initial project setup:
 
 Installer 
@@ -33,9 +37,28 @@ dotnet add reference ..\Domain\
 
 cd ..
 dotnet add gitignore
+
+dotnet tool install --global dotnet-ef
+cd API
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.10
 ----------
 
 Si il y a un problème de dépendences (p.ex. EntityFramework pas dispo dans le projet API)
 il faut lancer cette commande depuis la racine (dossier de la solution):
 dotnet restore
+
+La création de migrations n'est pas possible sur un chemin réseau. Il faut placer le projet à la racine du disque C idéalement.
+----------
+
+Migrations:
+Les migrations sont executées automatiquement via API\program.cs 
+
+Pour créer une migration, lancer cette commande depuis la racine:
+dotnet ef migrations add initialCreate -p Persistance -s API
+----------
+
+On lance l'app depuis le dossier API avec la commande:
+dotnet watch run
+
+Si omnisharp bug, on fait ctrl+shift+P : omnisharp:restart omnisharp
 
