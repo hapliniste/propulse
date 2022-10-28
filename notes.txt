@@ -41,11 +41,17 @@ dotnet add gitignore
 dotnet tool install --global dotnet-ef
 cd API
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.10
+cd ..
+cd Application
+dotnet add package MediatR.Extensions.Microsoft.DependencyInjection --version 11.0.0
+
 ----------
 
+!!!!!!!!!!!!!!!!!!!!
 Si il y a un problème de dépendences (p.ex. EntityFramework pas dispo dans le projet API)
 il faut lancer cette commande depuis la racine (dossier de la solution):
 dotnet restore
+!!!!!!!!!!!!!!!!!!!!
 
 La création de migrations n'est pas possible sur un chemin réseau. Il faut placer le projet à la racine du disque C idéalement.
 ----------
