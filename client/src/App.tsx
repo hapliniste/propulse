@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Header, List } from 'semantic-ui-react';
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -16,18 +17,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Welcome to ProPulse!
-        </p>
-        <ul>
-          {
-            projects.map((project: any) => {
-              return <li key={project.id}>{project.title}</li>
-            })
-          }
-        </ul>
-      </header>
+      <Header as='h2' icon='users' content='ProPulse'/>
+      <List>
+        {
+          projects.map((project: any) => {
+            return <List.Item key={project.id}>{project.title}</List.Item>
+          })
+        }
+      </List>
     </div>
   );
 }
