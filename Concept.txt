@@ -1,0 +1,36 @@
+Propulse permet de créer des "Projets", et de poster des "Articles" dedans, dans 
+lesquels on peut donner des infos sur l'avancement, etc.
+Les utilisateurs abonnés verront les derniers articles dans leur feed, mais peuvent 
+aussi accéder à la page du projet pour tout voir de manière chronologique.
+
+Pages:
+Login
+Accueil
+Projet
+Article
+Profil
+
+On va tenter de minimiser les changements de pages en optant plutôt pour un 
+chargement dynamique. Par ex. sur le feed et la page projet, on voit le titre des 
+articles et le début, et quand on clic dessus ça étend juste le div pour montrer le contenu entier.
+On peut tout de même accéder à un article précis en cas de partage, etc.
+
+
+Composants:
+Login Page
+    Login form
+
+Home
+    Header
+    PostList
+    MyProjectsList
+
+project
+    ...
+    ParticipantList
+
+Article
+    Content / Editor
+    Comments
+
+Profile
