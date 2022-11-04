@@ -5,16 +5,21 @@ import { Project } from '../models/project';
 import Navbar from './Navbar';
 import ProjectsDashboard from '../../features/projects/dashboard/ProjectsDashboard';
 import {v4 as uuid} from 'uuid';
+import agent from '../api/agent';
 
 function App() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    axios.get<Project[]>('http://localhost:5000/api/projects').then(res => {
+    /*axios.get<Project[]>('http://localhost:5000/api/projects').then(res => {
       setProjects(res.data);
       console.log(res);
+    })*/
+    agent.Projects.list().then(response => {
+      setProjects(response);
     })
   }, []);
 
@@ -34,15 +39,41 @@ function App() {
   }
 
   const handleCreateOrEditProject = (project: Project) => {
-    project.id
+    /*project.id
       ? setProjects([...projects.filter(x => x.id !== project.id), project])
       : setProjects([...projects, {...project, id: uuid()}]);
       setEditMode(false);
-      setSelectedProject(project);
+      setSelectedProject(project);*/
+
+    setSubmitting(true);
+    if(project.id)
+    {
+      agent.Projects.update(project).then(() => {
+        setProjects([...projects.filter(x => x.id !== project.id), project])
+        setEditMode(false);
+        setSelectedProject(project);
+        setSubmitting(false);
+      })
+    }
+    else
+    {
+      project.id = uuid();
+      project.creationDate = new Date().toISOString();
+      agent.Projects.create(project).then(() => {
+        setProjects([...projects, project]);
+        setEditMode(false);
+        setSelectedProject(project);
+        setSubmitting(false);
+      })
+    }
   }
 
   const handleDeleteProject = (id: string) => {
-    setProjects([...projects.filter(x => x.id !== id)]);
+    setSubmitting(true);
+    agent.Projects.delete(id).then(() => {
+      setProjects([...projects.filter(x => x.id !== id)]);
+      setSubmitting(false);
+    })
   }
 
   return (
