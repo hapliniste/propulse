@@ -1,25 +1,25 @@
 import { Button, Container, Menu } from 'semantic-ui-react';
+import { useStore } from '../stores/store';
 
-interface Props {
-    cancelSelectProject: () => void;
-    openEditForm: () => void;
-    closeEditForm: () => void;
-}
+export default function Navbar() {
 
-export default function Navbar({cancelSelectProject, openEditForm, closeEditForm}: Props) {
+    const {projectStore} = useStore()
     return(
         <Menu fixed='top'>
             <Container>
                 <Menu.Item header>
                     <img src="/assets/logo.png" alt="logo" onClick={() => {
-                        cancelSelectProject();
-                        closeEditForm();
+                        projectStore.selectProject();
+                        projectStore.openEditForm(false);
                     }}/>
                 </Menu.Item>
                 <Menu.Item name='Feed'/>
                 <Menu.Item name='Projects'/>
                 <Menu.Item>
-                    <Button onClick={() => openEditForm()} content='Create project'/>
+                    <Button onClick={() => {
+                        projectStore.selectProject();
+                        projectStore.openEditForm(true);
+                    }} content='Create project'/>
                 </Menu.Item>
             </Container>
         </Menu>

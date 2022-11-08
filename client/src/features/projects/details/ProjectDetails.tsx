@@ -1,12 +1,15 @@
 import { Button, Card } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
+import { useStore } from "../../../app/stores/store";
 
 interface Props {
     project: Project;
-    openEditForm: () => void;
 }
 
-export default function ProjectDetails({project, openEditForm}: Props) {
+export default function ProjectDetails({project}: Props) {
+
+    const {projectStore} = useStore()
+    
     return(
         <Card fluid>
             <Card.Content>
@@ -17,7 +20,7 @@ export default function ProjectDetails({project, openEditForm}: Props) {
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
-                <Button onClick={() => openEditForm()} basic content='Edit'/>
+                <Button onClick={() => projectStore.openEditForm(true)} basic content='Edit'/>
             </Card.Content>
         </Card>
     )

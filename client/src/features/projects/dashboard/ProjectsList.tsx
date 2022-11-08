@@ -1,13 +1,15 @@
 import { Button, Item, Segment } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
+import { useStore } from "../../../app/stores/store";
 
 interface Props {
     projects: Project[];
-    selectProject: (id: string) => void;
-    deleteProject: (id: string) => void;
 }
 
-export default function ProjectsList({projects, selectProject, deleteProject}: Props){
+export default function ProjectsList({projects}: Props){
+
+    const {projectStore} = useStore()
+    
     return(
         <Segment>
             <Item.Group divided>
@@ -21,8 +23,8 @@ export default function ProjectsList({projects, selectProject, deleteProject}: P
                                     <div>{project.description}</div>
                                 </Item.Description>
                                 <Item.Extra>
-                                    <Button floated='right' content='view' onClick={() => selectProject(project.id)}/>
-                                    <Button color='red' floated='right' content='delete' onClick={() => deleteProject(project.id)}/>
+                                    <Button floated='right' content='view' onClick={() => projectStore.selectProject(project.id)}/>
+                                    <Button color='red' floated='right' content='delete' onClick={() => projectStore.deleteProject(project.id)}/>
                                 </Item.Extra>
                             </Item.Content>
                         </Item>

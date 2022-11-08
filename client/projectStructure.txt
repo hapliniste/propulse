@@ -1,0 +1,29 @@
+Layout:
+Navbar [route, user]
+Footer
+
+Pages:
+Home 
+    My projects posts [user->projects->posts]
+Discover
+    All projects (ProjectList) [projects]
+Single project
+    Project detail [projects]
+    all posts list [project->posts]
+        Single post [post->comments, participants]
+
+
+_Containers_ & components:
+
+_App_ [Routes, account]
+    Navbar
+    _ProjectDashboard_ (Discover) [projects (all)]
+        ProjectList
+        ProjectDetails
+        !pas ici! ProjectForm
+    _Home_ [projects (filtered), posts]
+        _Post_ [comments]
+            comment
+    _Project_ [Projects (single / creation), posts]
+        ProjectForm si owner/nouveau
+        _Post_ [comments]
