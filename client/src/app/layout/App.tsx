@@ -1,34 +1,28 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Button, Container } from 'semantic-ui-react';
-import { Project } from '../models/project';
+import { Container } from 'semantic-ui-react';
+import { Route } from 'react-router-dom';
 import Navbar from './Navbar';
+import Homepage from '../../features/projects/home/Homepage';
 import ProjectsDashboard from '../../features/projects/dashboard/ProjectsDashboard';
-import {v4 as uuid} from 'uuid';
-import agent from '../api/agent';
-import { useStore } from '../stores/store';
-import { observer } from 'mobx-react-lite';
+import ProjectForm from '../../features/projects/form/ProjectForm';
+import ProjectDetails from '../../features/projects/details/ProjectDetails';
 
 /*
 [App container]
-Stores: Routes, User
+Stores: User
 */
 
 function App() {
-  const {projectStore} = useStore()
-
-  useEffect(() => {
-    projectStore.loadProjects();
-  }, [projectStore]);
-
   return (
     <div className="App">
       <Navbar/>
       <Container style={{marginTop: '4em'}}>
-        <ProjectsDashboard />      
+        <Route path='/' exact component={Homepage}/>
+        <Route path='/projects' exact component={ProjectsDashboard}/>
+        <Route path='/project/:id' component={ProjectDetails}/>
+        <Route path={['/createProject', '/manage/:id']} exact component={ProjectForm}/>
       </Container>
     </div>
   );
 }
 
-export default observer(App);
+export default App;

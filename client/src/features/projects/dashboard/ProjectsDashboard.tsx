@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
@@ -11,29 +12,23 @@ import ProjectsList from "./ProjectsList";
 Stores: Projects
 */
 
-/*interface Props {
-    projects: Project[];
-    selectedProject: Project | undefined;
-    editMode: boolean;
-}*/
-
-const ProjectsDashboard = (/*{
-    projects, 
-    selectedProject, 
-    editMode
-}: Props*/) =>
+const ProjectsDashboard = () =>
 {
     const {projectStore} = useStore()
+
+    useEffect(() => {
+        projectStore.loadProjects();
+    }, [projectStore]);
     
     return(
         <Grid>
-            <Grid.Column width='10'>
+            <Grid.Column width='16'>
                 <ProjectsList projects={projectStore.projects}/>
             </Grid.Column>
-            <Grid.Column width='6'>
+            {/*<Grid.Column width='6'>
                 {projectStore.selectedProject && <ProjectDetails project={projectStore.selectedProject}/>}
                 {projectStore.editMode && <ProjectForm selectedProject={projectStore.selectedProject}/>}
-            </Grid.Column>
+    </Grid.Column>*/}
         </Grid>
     )
 }

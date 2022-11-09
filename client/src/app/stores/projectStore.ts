@@ -25,11 +25,42 @@ export default class ProjectStore {
         }
     }
 
-    createOrEditProject = (project: Project) => {
-        project.id ? this.updateProject(project) : this.createProject(project)
+    loadProject = async (id: string) => {
+        console.log('loadProject with id: ' + id);
+        console.log('current projects:');
+        console.log(this.projects);
+        let project = this.projects.find(p => p.id == id);
+        if(project){
+            this.selectedProject = project;
+            console.log("project is already loaded!");
+            console.log(project);
+        }
+        else{
+            try{
+                project = await agent.Projects.details(id);
+                console.log('project has been requested with result:');
+                console.log(project);
+            }
+            catch(error){
+                console.log(error);
+            }
+
+            if(project){
+                this.selectedProject = {...project};
+                console.log('selected project is now:');
+                console.log(this.selectedProject);
+            }
+            else{
+                console.log('The project does not exist!');
+            }
+        }
     }
 
-    createProject = (project: Project) => {
+    createOrEditProject = async (project: Project) => {
+        return project.id ? await this.updateProject(project) : await this.createProject(project)
+    }
+
+    createProject = async (project: Project) => {
         project.id = uuid();
         project.creationDate = new Date().toISOString();
         agent.Projects.create(project).then(() => {
@@ -39,7 +70,7 @@ export default class ProjectStore {
         })
     }
 
-    updateProject = (project: Project) => {
+    updateProject = async (project: Project) => {
         agent.Projects.update(project).then(() => {
             this.projects = ([...this.projects.filter(x => x.id !== project.id), project])
             this.openEditForm(false);

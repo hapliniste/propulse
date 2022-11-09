@@ -1,27 +1,41 @@
+import { toJS } from "mobx";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Button, Card } from "semantic-ui-react";
 import { Project } from "../../../app/models/project";
 import { useStore } from "../../../app/stores/store";
 
-interface Props {
-    project: Project;
-}
+const ProjectDetails = () => {
 
-export default function ProjectDetails({project}: Props) {
+    const {projectStore} = useStore();
 
-    const {projectStore} = useStore()
+    const {id} = useParams<{id: string}>();
+
+    useEffect(() => {
+        //console.log('id is: ' + id);
+        if(id) projectStore.loadProject(id);
+    }, [id, projectStore.loadProject]);
     
+    //console.log('project is: ' + projectStore.selectedProject)
+    //console.log(toJS(projectStore.selectedProject))
     return(
+        projectStore.selectedProject ?
         <Card fluid>
             <Card.Content>
-                <Card.Header>{project.title}</Card.Header>
-                <Card.Meta>{project.creationDate}</Card.Meta>
+                <Card.Header>{projectStore.selectedProject.title}</Card.Header>
+                <Card.Meta>{projectStore.selectedProject.creationDate}</Card.Meta>
                 <Card.Description>
-                    {project.description}
+                    {projectStore.selectedProject.description}
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
-                <Button onClick={() => projectStore.openEditForm(true)} basic content='Edit'/>
+                <Button as={Link} to={`/projects`} basic content='Cancel'/>
+                <Button as={Link} to={`/manage/${projectStore.selectedProject.id}`} basic content='Edit'/>
             </Card.Content>
         </Card>
+        : <></>
     )
 }
+
+export default observer(ProjectDetails);
